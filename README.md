@@ -12,7 +12,7 @@ Rancher 2 UI driver for the [cloudscale.ch Cloud](cloudscale.ch)
 | Key | Value |
 | --- | ----- |
 | Download URL | `https://github.com/splattner/docker-machine-driver-cloudscale/releases/download/v0.0.1/docker-machine-driver-cloudscale_v0.0.1_linux_amd64.tar.gz` |
-| Custom UI URL | `https://s3.eu-central-1.amazonaws.com/cloudscale-stuff/component.js` |
+| Custom UI URL | `https://s3.eu-central-1.amazonaws.com/cloudscale-rancher-v2-ui-driver/component.js` |
 | Whitelist Domains |  `s3.eu-central-1.amazonaws.com` |
 
 * Wait for the driver to become "Active"
