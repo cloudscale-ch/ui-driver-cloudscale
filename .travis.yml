@@ -9,6 +9,7 @@ deploy:
   access_key_id: $AWS_ACCESS_KEY_ID
   secret_access_key: $AWS_SECRET_ACCESS_KEY
   bucket: "cloudscale-rancher-v2-ui-driver"
+  region: eu-central-1
   acl: public-read
   skip_cleanup: true
   local-dir: dist
