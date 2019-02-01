@@ -1,7 +1,7 @@
 {
   "name": "ui-driver-cloudscale",
   "version": "0.1.0",
-  "description": "Rancher UI driver for the cloudscale.ch Cloud docker-machine driver",
+  "description": "Rancher UI driver for the cloudscale.ch docker-machine driver",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/splattner/ui-driver-cloudscale.git"
