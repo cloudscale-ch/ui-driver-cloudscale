@@ -1,4 +1,4 @@
-# Rancher 2 cloudscale.ch Cloud UI Driver
+# Rancher 2 cloudscale.ch UI Driver
 
 [![Build Status](https://travis-ci.org/splattner/ui-driver-cloudscale.svg?branch=master)](https://travis-ci.com/mxschmitt/ui-driver-hetzner)
 
