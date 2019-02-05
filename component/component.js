@@ -51,7 +51,7 @@ export default Ember.Component.extend(NodeDriver, {
       flavor: 'flex-4', // 4 GB Ram
       image: 'ubuntu-18.04',
       volumeSizeGb: '10', //GB
-      userData: '',
+      userdata: '',
       sshUser: 'root'
     });
 
@@ -67,21 +67,13 @@ export default Ember.Component.extend(NodeDriver, {
       errors.push('Name is required');
     }
 
-    // Add more specific errors
-
-    // Check something and add an error entry if it fails:
-    if (get(this, 'model.%%DRIVERNAME%%Config.image')) {
-      this.set('model.%%DRIVERNAME%%Config.image', "")
-    }
-
     var choice;
     var image =  get(this, 'model.%%DRIVERNAME%%Config.image')
     var imageChoices = get(this, 'imageChoices')
-    console.log(imageChoices)
-    console.log(image)
+    console.log("Image: " + image)
     for (choice in imageChoices){
-      console.log(imageChoices[choice])
       if (imageChoices[choice].slug == image) {
+
         this.set('model.%%DRIVERNAME%%Config.sshUser', imageChoices[choice].default_username)
         break
       }
