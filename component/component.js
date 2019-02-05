@@ -49,9 +49,10 @@ export default Ember.Component.extend(NodeDriver, {
     let config = get(this, 'globalStore').createRecord({
       type: '%%DRIVERNAME%%Config',
       flavor: 'flex-4', // 4 GB Ram
-      image: "ubuntu-18.04",
-      volume_size_gb: '10', //GB
+      image: 'ubuntu-18.04',
+      volumesizegb: '10', //GB
       userData: ''
+      sshuser: 'root'
     });
 
     set(this, 'model.%%DRIVERNAME%%Config', config);
@@ -69,10 +70,19 @@ export default Ember.Component.extend(NodeDriver, {
     // Add more specific errors
 
     // Check something and add an error entry if it fails:
-
     if (get(this, 'model.%%DRIVERNAME%%Config.image')) {
       this.set('model.%%DRIVERNAME%%Config.image', "")
     }
+
+    for (choice in imageChoices){
+      if (choice.slud == get(this, 'model.%%DRIVERNAME%%Config.image')) {
+        this.set('model.%%DRIVERNAME%%Config.sshuser', choice.default_username)
+        break
+      }
+    }
+
+
+
     // Set the array of errors for display,
     // and return true if saving should continue.
     if (get(errors, 'length')) {

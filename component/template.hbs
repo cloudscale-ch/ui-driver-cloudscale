@@ -39,7 +39,7 @@
         <label class="form-control-static">Image</label>
       </div>
       <div class="col-md-4">
-        <select class="form-control" onchange={{action (mut model.cloudscaleConfig.imageId) value="target.value" }}>
+        <select class="form-control" onchange={{action (mut model.cloudscaleConfig.id) value="target.value" }}>
           {{#each imageChoices as |choice|}}
             <option value={{choice.id}} selected={{eq model.cloudscaleConfig.image choice.id}}>{{choice.name}}</option>
           {{/each}}
@@ -59,7 +59,7 @@
         <label class="form-control-static">Root Volume (in GB)</label>
       </div>
       <div class="col-md-4">
-        {{input type="text" value=model.cloudscaleConfig.volume_size_gb classNames="form-control" }}
+        {{input type="text" value=model.cloudscaleConfig.volumesizegb classNames="form-control" }}
       </div>
     </div>
     <div class="over-hr r-mt20 r-mb20">
