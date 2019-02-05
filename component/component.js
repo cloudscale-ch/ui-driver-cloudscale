@@ -77,7 +77,7 @@ export default Ember.Component.extend(NodeDriver, {
     var choice;
     var image =  get(this, 'model.%%DRIVERNAME%%Config.image')
     var imageChoices = get(this, 'imageChoices')
-    console.log(imagecoices)
+    console.log(imageChoices)
     console.log(image)
     for (choice in imageChoices){
       console.log(choice)
