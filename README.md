@@ -24,6 +24,7 @@ The recommended one `https://releases.rancher.com/install-docker/17.03.sh`, seem
 
 ![Authentication screen](docs/authentication-screen.png)
 ![Configuration screen](docs/configuration-screen.png)
+![Add Cluster screen](docs/add-cluster.png)
 
 
 ## Development
