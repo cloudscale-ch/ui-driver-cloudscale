@@ -50,9 +50,9 @@ export default Ember.Component.extend(NodeDriver, {
       type: '%%DRIVERNAME%%Config',
       flavor: 'flex-4', // 4 GB Ram
       image: 'ubuntu-18.04',
-      volumesizegb: '10', //GB
+      volumeSizeGb: '10', //GB
       userData: '',
-      sshuser: 'root'
+      sshUser: 'root'
     });
 
     set(this, 'model.%%DRIVERNAME%%Config', config);
@@ -75,12 +75,19 @@ export default Ember.Component.extend(NodeDriver, {
     }
 
     var choice;
-    for (choice in get(this, 'imageChoices')){
-      if (choice.slug == get(this, 'model.%%DRIVERNAME%%Config.image')) {
-        this.set('model.%%DRIVERNAME%%Config.sshuser', choice.default_username)
+    var image =  get(this, 'model.%%DRIVERNAME%%Config.image')
+    var imageChoices = get(this, 'imageChoices')
+    console.log(imagecoices)
+    console.log(image)
+    for (choice in imageChoices){
+      console.log(choice)
+      if (choice.slug == image) {
+        this.set('model.%%DRIVERNAME%%Config.sshUser', choice.default_username)
         break
       }
     }
+
+    console.log(get(this, 'model.%%DRIVERNAME%%Config'))
 
 
 
