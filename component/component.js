@@ -120,7 +120,6 @@ export default Ember.Component.extend(NodeDriver, {
     }
   },
   apiRequest(path) {
-    console.log(this.get('model.%%DRIVERNAME%%Config.token'));
     return fetch('https://api.cloudscale.ch' + path, {
       headers: {
         'Authorization': 'Bearer ' + this.get('model.%%DRIVERNAME%%Config.token'),
