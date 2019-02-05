@@ -70,17 +70,12 @@ export default Ember.Component.extend(NodeDriver, {
     var choice;
     var image =  get(this, 'model.%%DRIVERNAME%%Config.image')
     var imageChoices = get(this, 'imageChoices')
-    console.log("Image: " + image)
     for (choice in imageChoices){
       if (imageChoices[choice].slug == image) {
-
         this.set('model.%%DRIVERNAME%%Config.sshUser', imageChoices[choice].default_username)
         break
       }
     }
-
-    console.log(get(this, 'model.%%DRIVERNAME%%Config'))
-
 
 
     // Set the array of errors for display,
