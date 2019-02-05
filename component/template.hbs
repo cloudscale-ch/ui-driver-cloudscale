@@ -61,6 +61,18 @@
       <div class="col-md-4">
         {{input type="text" value=model.cloudscaleConfig.volumeSizeGb classNames="form-control" }}
       </div>
+      <div class="col-md-2">
+        <label class="form-control-static">Enable Private Network Interface</label>
+      </div>
+      <div class="col-md-4">
+        {{input type="checkbox" checked=model.cloudscaleConfig.usePrivateNetwork value=model.cloudscaleConfig.usePrivateNetwork classNames="form-control" }}
+      </div>
+      <div class="col-md-2">
+        <label class="form-control-static">Enable IPv6 Address on Public Interface</label>
+      </div>
+      <div class="col-md-4">
+        {{input type="checkbox" checked=model.cloudscaleConfig.useIpv6 value=model.cloudscaleConfig.useIpv6 classNames="form-control" }}
+      </div>
     </div>
     <div class="over-hr r-mt20 r-mb20">
       <span>User data</span>

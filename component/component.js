@@ -50,9 +50,11 @@ export default Ember.Component.extend(NodeDriver, {
       type: '%%DRIVERNAME%%Config',
       flavor: 'flex-4', // 4 GB Ram
       image: 'ubuntu-18.04',
-      volumeSizeGb: '10', //GB
+      volumeSizeGb: '20', //GB
       userdata: '',
-      sshUser: 'root'
+      sshUser: 'root',
+      usePrivateNetwork: false,
+      useIpv6: false
     });
 
     set(this, 'model.%%DRIVERNAME%%Config', config);
