@@ -80,9 +80,9 @@ export default Ember.Component.extend(NodeDriver, {
     console.log(imageChoices)
     console.log(image)
     for (choice in imageChoices){
-      console.log(choice)
-      if (choice.slug == image) {
-        this.set('model.%%DRIVERNAME%%Config.sshUser', choice.default_username)
+      console.log(imageChoices[choice])
+      if (imageChoices[choice].slug == image) {
+        this.set('model.%%DRIVERNAME%%Config.sshUser', imageChoices[choice].default_username)
         break
       }
     }
