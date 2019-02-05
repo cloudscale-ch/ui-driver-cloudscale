@@ -49,8 +49,8 @@
         <label class="form-control-static">Flavor</label>
       </div>
       <div class="col-md-4">
-        <select class="form-control" onchange={{action (mut model.cloudscaleConfig.serverType) value="target.value" }}>
-          {{#each sizeChoices as |choice|}}
+        <select class="form-control" onchange={{action (mut model.cloudscaleConfig.flavor) value="target.value" }}>
+          {{#each flavorChoices as |choice|}}
             <option value={{choice.name}} selected={{eq model.cloudscaleConfig.flavor choice.slug}}>{{choice.name}} - {{choice.memory_gb}}GB Memory - {{choice.vcpu_count}} CPU</option>
           {{/each}}
         </select>
@@ -59,7 +59,7 @@
         <label class="form-control-static">Root Volume</label>
       </div>
       <div class="col-md-4">
-        {{input type="text" value=model.cloudscaleConfig.volume_size_gb classNames="form-control" value="10"}}
+        {{input type="text" onchange={{action (mut model.cloudscaleConfig.volume_size_gb) value="model.cloudscaleConfig.volume_size_gb" classNames="form-control" }}
       </div>
     </div>
     <div class="over-hr r-mt20 r-mb20">
