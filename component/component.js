@@ -74,7 +74,7 @@ export default Ember.Component.extend(NodeDriver, {
       this.set('model.%%DRIVERNAME%%Config.image', "")
     }
 
-    for (choice in imageChoices){
+    for (choice in get(this, 'imageChoices')){
       if (choice.slud == get(this, 'model.%%DRIVERNAME%%Config.image')) {
         this.set('model.%%DRIVERNAME%%Config.sshuser', choice.default_username)
         break
