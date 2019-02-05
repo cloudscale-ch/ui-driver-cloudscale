@@ -54,7 +54,8 @@ export default Ember.Component.extend(NodeDriver, {
       userdata: '',
       sshUser: 'root',
       usePrivateNetwork: false,
-      useIpv6: false
+      useIpv6: false,
+      instanceType: '' // Only used by Rancher UI
     });
 
     set(this, 'model.%%DRIVERNAME%%Config', config);
@@ -78,6 +79,8 @@ export default Ember.Component.extend(NodeDriver, {
         break
       }
     }
+
+    set(this, 'model.%%DRIVERNAME%%Config.instanceType', get(this, 'model.%%DRIVERNAME%%Config.flavor'));
 
 
     // Set the array of errors for display,
