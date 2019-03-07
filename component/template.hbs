@@ -51,7 +51,7 @@
       <div class="col-md-4">
         <select class="form-control" onchange={{action (mut model.cloudscaleConfig.flavor) value="target.value" }}>
           {{#each flavorChoices as |choice|}}
-            <option value={{choice.name}} selected={{eq model.cloudscaleConfig.flavor choice.slug}}>{{choice.name}} - {{choice.memory_gb}}GB Memory - {{choice.vcpu_count}} CPU</option>
+            <option value={{choice.slug}} selected={{eq model.cloudscaleConfig.flavor choice.slug}}>{{choice.name}} - {{choice.memory_gb}}GB Memory - {{choice.vcpu_count}} CPU</option>
           {{/each}}
         </select>
       </div>
