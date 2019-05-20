@@ -9,9 +9,9 @@
         <label class="form-control-static">API Token*</label>
       </div>
       <div class="col-md-10">
-        {{input type="password" value=model.cloudscaleConfig.token classNames="form-control" placeholder="Your cloudscale.ch Cloud API Token"}}
-        <p class="help-block">Create it by switching into
-          <a target="_blank" href="https://control.cloudscale.ch/">cloudscale.ch Control</a>, choosing a project and create a new API token there.</p>
+        {{input type="password" value=model.cloudscaleConfig.token classNames="form-control" placeholder="Your cloudscale.ch API Token"}}
+        <p class="help-block">Create your API Token in the
+          <a target="_blank" href="https://control.cloudscale.ch/user/api-tokens">cloudscale.ch cloud control panel</a>.</p>
       </div>
     </div>
     {{top-errors errors=errors}}
