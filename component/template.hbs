@@ -29,10 +29,7 @@
   <div class="container-fluid">
     {{!-- This partial contains the quantity, name, and description fields --}}
     <div class="over-hr">
-      <span>{{templateOptionsTitle}}</span>
-    </div>
-    <div class="over-hr r-mt20 r-mb20">
-      <span>Settings</span>
+      <span>cloudscale.ch Options</span>
     </div>
     <div class="row form-group">
       <div class="col-md-2">
@@ -84,6 +81,9 @@
       <div class="col-md-10">
         <textarea value={{model.cloudscaleConfig.userdata}} onchange={{action (mut model.cloudscaleConfig.userdata) value="target.value" }} rows="3" style="width: 100%; resize: vertical"></textarea>
       </div>
+    </div>
+    <div class="over-hr">
+      <span>{{templateOptionsTitle}}</span>
     </div>
      {{!-- This following contains the Name, Labels and Engine Options fields --}}
      {{form-name-description model=model nameRequired=true}}
