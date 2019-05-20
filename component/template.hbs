@@ -1,98 +1,172 @@
 <section class="horizontal-form">
   {{#if needAPIToken}}
-  <form>
-    <div class="over-hr r-mb20">
-      <span>Account Access</span>
-    </div>
-    <div class="row form-group">
-      <div class="col-md-2">
-        <label class="form-control-static">API Token*</label>
+    <form>
+      <div class="over-hr r-mb20">
+        <span>Account Access</span>
       </div>
-      <div class="col-md-10">
-        {{input type="password" value=model.cloudscaleConfig.token classNames="form-control" placeholder="Your cloudscale.ch API Token"}}
-        <p class="help-block">Create your API Token in the
-          <a target="_blank" href="https://control.cloudscale.ch/user/api-tokens">cloudscale.ch cloud control panel</a>.</p>
+      <div class="row form-group">
+        <div class="col-md-2">
+          <label class="form-control-static">API Token*</label>
+        </div>
+        <div class="col-md-10">
+          {{input type="password" value=model.cloudscaleConfig.token classNames="form-control"
+                  placeholder="Your cloudscale.ch API Token"}}
+          <p class="help-block">Create your API Token in the
+            <a target="_blank" href="https://control.cloudscale.ch/user/api-tokens">cloudscale.ch cloud control
+              panel</a>.</p>
+        </div>
       </div>
-    </div>
-    {{top-errors errors=errors}}
-    <div class="footer-actions">
-      {{#if gettingData}}
-      <button class="btn bg-primary btn-disabled">
-        <i class="icon icon-spinner icon-spin"></i> {{t 'generic.loading'}}</button>
-      {{else}}
-      <button {{action "getData" }} class="btn bg-primary" disabled={{not model.cloudscaleConfig.token}}>Configure Server</button>
-      {{/if}}
-      <button {{action "cancel"}} class="btn bg-transparent">{{t 'generic.cancel'}}</button>
-    </div>
-  </form>
+      {{top-errors errors=errors}}
+      <div class="footer-actions">
+        {{#if gettingData}}
+          <button class="btn bg-primary btn-disabled">
+            <i class="icon icon-spinner icon-spin"></i> {{t 'generic.loading'}}</button>
+        {{else}}
+          <button {{action "getData" }} class="btn bg-primary" disabled={{not model.cloudscaleConfig.token}}>Configure
+            Server
+          </button>
+        {{/if}}
+        <button {{action "cancel"}} class="btn bg-transparent">{{t 'generic.cancel'}}</button>
+      </div>
+    </form>
   {{else}}
-  <div class="container-fluid">
-    {{!-- This partial contains the quantity, name, and description fields --}}
-    <div class="over-hr">
-      <span>cloudscale.ch Options</span>
-    </div>
-    <div class="row form-group">
-      <div class="col-md-2">
-        <label class="form-control-static">Image</label>
+    {{#accordion-list showExpandAll=false as | al expandFn |}}
+      <div class="over-hr">
+        <span>{{driverOptionsTitle}}</span>
       </div>
-      <div class="col-md-4">
-        <select class="form-control" onchange={{action (mut model.cloudscaleConfig.image) value="target.value" }}>
-          {{#each imageChoices as |choice|}}
-            <option value={{choice.id}} selected={{eq model.cloudscaleConfig.image choice.id}}>{{choice.name}}</option>
-          {{/each}}
-        </select>
+
+      {{#accordion-list-item
+        title="Server"
+        detail="Customize the server that will be created."
+        expandAll=expandAll
+        expand=(action expandFn)
+        expandOnInit=true
+      }}
+        <div class="row">
+          <div class="col span-6">
+            <label class="acc-label">
+              Image
+            </label>
+            <select
+              class="form-control"
+              onchange={{action (mut model.cloudscaleConfig.image) value="target.value" }}
+            >
+              {{#each imageChoices as |choice|}}
+                <option
+                  value={{choice.id}}
+                  selected={{eq model.cloudscaleConfig.image choice.id}}>
+                  {{choice.name}}
+                </option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="col span-6">
+            <label class="acc-label">
+              Image
+            </label>
+            <select
+              class="form-control"
+              onchange={{action (mut model.cloudscaleConfig.flavor) value="target.value" }}
+            >
+              {{#each flavorChoices as |choice|}}
+                <option
+                  value={{choice.slug}}
+                  selected={{eq model.cloudscaleConfig.flavor choice.slug}}>
+                  {{choice.name}} - {{choice.memory_gb}}GB Memory - {{choice.vcpu_count}} CPU
+                </option>
+              {{/each}}
+            </select>
+          </div>
+        </div>
+      {{/accordion-list-item}}
+
+      {{#accordion-list-item
+        title="Storage"
+        detail="Customize the storage of the server that will be created."
+        expandAll=expandAll
+        expand=(action expandFn)
+        expandOnInit=false
+      }}
+        <div class="row">
+          <div class="col span-6">
+            <label class="acc-label">
+              Root Volume (in GB)
+            </label>
+            <div>
+              {{input
+                type="text"
+                value=model.cloudscaleConfig.volumeSizeGb
+                classNames="form-control"
+              }}
+            </div>
+          </div>
+        </div>
+      {{/accordion-list-item}}
+
+      {{#accordion-list-item
+        title="Advanced Options"
+        detail="Customize the network and other options of the server that will be created."
+        expandAll=expandAll
+        expand=(action expandFn)
+        expandOnInit=false
+      }}
+        <div class="row">
+          <div class="col span-6">
+            <label class="acc-label">
+              Enable Private Network Interface
+            </label>
+            <div>
+              {{input
+                type="checkbox"
+                checked=model.cloudscaleConfig.usePrivateNetwork
+                value=model.cloudscaleConfig.usePrivateNetwork classNames="form-control"
+              }}
+            </div>
+          </div>
+          <div class="col span-6">
+            <label class="acc-label">
+              Enable IPv6 Address on Public Interface
+            </label>
+            <div>
+              {{input
+                type="checkbox"
+                checked=model.cloudscaleConfig.useIpv6
+                value=model.cloudscaleConfig.useIpv6
+                classNames="form-control"
+              }}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col span-12">
+            <label class="acc-label">
+              Cloud-init Configuration (optional)
+            </label>
+            <div>
+              <textarea
+                value={{model.cloudscaleConfig.userdata}}
+                onchange={{action (mut model.cloudscaleConfig.userdata) value="target.value" }}
+                rows="3"
+                style="width: 100%; resize: vertical">
+              </textarea>
+            </div>
+          </div>
+        </div>
+      {{/accordion-list-item}}
+
+
+      <div class="over-hr">
+        <span>{{templateOptionsTitle}}</span>
       </div>
-      <div class="col-md-2">
-        <label class="form-control-static">Flavor</label>
-      </div>
-      <div class="col-md-4">
-        <select class="form-control" onchange={{action (mut model.cloudscaleConfig.flavor) value="target.value" }}>
-          {{#each flavorChoices as |choice|}}
-            <option value={{choice.slug}} selected={{eq model.cloudscaleConfig.flavor choice.slug}}>{{choice.name}} - {{choice.memory_gb}}GB Memory - {{choice.vcpu_count}} CPU</option>
-          {{/each}}
-        </select>
-      </div>
-      <div class="col-md-2">
-        <label class="form-control-static">Root Volume (in GB)</label>
-      </div>
-      <div class="col-md-4">
-        {{input type="text" value=model.cloudscaleConfig.volumeSizeGb classNames="form-control" }}
-      </div>
-      <div class="col-md-2">
-        <label class="form-control-static">Enable Private Network Interface</label>
-      </div>
-      <div class="col-md-4">
-        {{input type="checkbox" checked=model.cloudscaleConfig.usePrivateNetwork value=model.cloudscaleConfig.usePrivateNetwork classNames="form-control" }}
-      </div>
-      <div class="col-md-2">
-        <label class="form-control-static">Enable IPv6 Address on Public Interface</label>
-      </div>
-      <div class="col-md-4">
-        {{input type="checkbox" checked=model.cloudscaleConfig.useIpv6 value=model.cloudscaleConfig.useIpv6 classNames="form-control" }}
-      </div>
-    </div>
-    <div class="over-hr r-mt20 r-mb20">
-      <span>User data</span>
-    </div>
-    <div class="row form-group">
-      <div class="col-md-2">
-        <label class="form-control-static">Cloud-init Configuration (optional)</label>
-      </div>
-      <div class="col-md-10">
-        <textarea value={{model.cloudscaleConfig.userdata}} onchange={{action (mut model.cloudscaleConfig.userdata) value="target.value" }} rows="3" style="width: 100%; resize: vertical"></textarea>
-      </div>
-    </div>
-    <div class="over-hr">
-      <span>{{templateOptionsTitle}}</span>
-    </div>
-     {{!-- This following contains the Name, Labels and Engine Options fields --}}
-     {{form-name-description model=model nameRequired=true}}
-     {{form-user-labels initialLabels=labelResource.labels setLabels=(action 'setLabels') expandAll=expandAll expand=(action expandFn) }}
-     {{form-engine-opts machine=model showEngineUrl=showEngineUrl }}
-     {{!-- This component shows errors produced by validate() in the component --}}
-     {{top-errors errors=errors}}
-     {{!-- This component shows the Create and Cancel buttons --}}
-     {{save-cancel save="save" cancel="cancel"}}
-  </div>
+      {{!-- This following contains the Name, Labels and Engine Options fields --}}
+      {{form-name-description model=model nameRequired=true}}
+      {{form-user-labels initialLabels=labelResource.labels setLabels=(action 'setLabels') expandAll=expandAll
+                         expand=(action expandFn) }}
+      {{form-engine-opts machine=model showEngineUrl=showEngineUrl }}
+      {{!-- This component shows errors produced by validate() in the component --}}
+      {{top-errors errors=errors}}
+      {{!-- This component shows the Create and Cancel buttons --}}
+      {{save-cancel save="save" cancel="cancel"}}
+    {{/accordion-list}}
   {{/if}}
 </section>
