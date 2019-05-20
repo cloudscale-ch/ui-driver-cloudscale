@@ -12,8 +12,8 @@ Rancher 2 UI driver for [cloudscale.ch](https://www.cloudscale.ch)
 | Key | Value |
 | --- | ----- |
 | Download URL | `https://github.com/splattner/docker-machine-driver-cloudscale/releases/download/v0.0.2/docker-machine-driver-cloudscale_v0.0.2_linux_amd64.tar.gz` |
-| Custom UI URL | `https://s3.eu-central-1.amazonaws.com/cloudscale-rancher-v2-ui-driver/component.js` |
-| Whitelist Domains |  `s3.eu-central-1.amazonaws.com` |
+| Custom UI URL | `https://objects.cloudscale.ch/cloudscale-rancher-v2-ui-driver/component.js` |
+| Whitelist Domains |  `objects.cloudscale.ch` |
 | Engine Options -> Docker Install URL | `https://get.docker.com/`|
 
 The recommended one `https://releases.rancher.com/install-docker/17.03.sh`, seems not to work.
