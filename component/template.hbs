@@ -9,7 +9,7 @@
           <label class="form-control-static">API Token*</label>
         </div>
         <div class="col-md-10">
-          {{input type="password" value=model.cloudscaleConfig.token classNames="form-control"
+          {{input type="password" value=config.token classNames="form-control"
                   placeholder="Your cloudscale.ch API Token"}}
           <p class="help-block">Create your API Token in the
             <a target="_blank" href="https://control.cloudscale.ch/user/api-tokens">cloudscale.ch cloud control
@@ -22,7 +22,7 @@
           <button class="btn bg-primary btn-disabled">
             <i class="icon icon-spinner icon-spin"></i> {{t 'generic.loading'}}</button>
         {{else}}
-          <button {{action "getData" }} class="btn bg-primary" disabled={{not model.cloudscaleConfig.token}}>Configure
+          <button {{action "getData" }} class="btn bg-primary" disabled={{not config.token}}>Configure
             Server
           </button>
         {{/if}}
@@ -49,12 +49,12 @@
             </label>
             <select
               class="form-control"
-              onchange={{action (mut model.cloudscaleConfig.image) value="target.value" }}
+              onchange={{action (mut config.image) value="target.value" }}
             >
               {{#each imageChoices as |choice|}}
                 <option
                   value={{choice.id}}
-                  selected={{eq model.cloudscaleConfig.image choice.id}}>
+                  selected={{eq config.image choice.id}}>
                   {{choice.name}}
                 </option>
               {{/each}}
@@ -66,12 +66,12 @@
             </label>
             <select
               class="form-control"
-              onchange={{action (mut model.cloudscaleConfig.flavor) value="target.value" }}
+              onchange={{action (mut config.flavor) value="target.value" }}
             >
               {{#each flavorChoices as |choice|}}
                 <option
                   value={{choice.slug}}
-                  selected={{eq model.cloudscaleConfig.flavor choice.slug}}>
+                  selected={{eq config.flavor choice.slug}}>
                   {{choice.name}} - {{choice.memory_gb}}GB Memory - {{choice.vcpu_count}} CPU
                 </option>
               {{/each}}
@@ -95,7 +95,7 @@
             <div>
               {{input
                 type="text"
-                value=model.cloudscaleConfig.volumeSizeGb
+                value=config.volumeSizeGb
                 classNames="form-control"
               }}
             </div>
@@ -119,8 +119,8 @@
             <div>
               {{input
                 type="checkbox"
-                checked=model.cloudscaleConfig.usePrivateNetwork
-                value=model.cloudscaleConfig.usePrivateNetwork classNames="form-control"
+                checked=config.usePrivateNetwork
+                value=config.usePrivateNetwork classNames="form-control"
               }}
             </div>
           </div>
@@ -131,8 +131,8 @@
             <div>
               {{input
                 type="checkbox"
-                checked=model.cloudscaleConfig.useIpv6
-                value=model.cloudscaleConfig.useIpv6
+                checked=config.useIpv6
+                value=config.useIpv6
                 classNames="form-control"
               }}
             </div>
@@ -157,7 +157,7 @@
                 {{#each serverGroupsChoices as |choice|}}
                   <option
                     value={{choice.uuid}}
-                    selected={{eq model.cloudscaleConfig.serverGroups.[0] choice.uuid}}>
+                    selected={{eq config.serverGroups.[0] choice.uuid}}>
                     {{choice.name}}
                   </option>
                 {{/each}}
@@ -179,8 +179,8 @@
             </label>
             <div>
               <textarea
-                value={{model.cloudscaleConfig.userdata}}
-                onchange={{action (mut model.cloudscaleConfig.userdata) value="target.value" }}
+                value={{config.userdata}}
+                onchange={{action (mut config.userdata) value="target.value" }}
                 rows="3"
                 style="width: 100%; resize: vertical">
               </textarea>

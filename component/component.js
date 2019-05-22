@@ -64,9 +64,9 @@ export default Ember.Component.extend(NodeDriver, {
   },
 
   afterInit: function () {
-    const serverGroups = get(this, 'model.%%DRIVERNAME%%Config.serverGroups');
+    const serverGroups = get(this, 'config.serverGroups');
     if (serverGroups === null) {
-      set(this, 'model.%%DRIVERNAME%%Config.serverGroups', []);
+      set(this, 'config.serverGroups', []);
     }
   }.on('init'),
 
@@ -80,17 +80,16 @@ export default Ember.Component.extend(NodeDriver, {
     }
 
     var choice;
-    var image =  get(this, 'model.%%DRIVERNAME%%Config.image')
+    var image =  get(this, 'config.image')
     var imageChoices = get(this, 'imageChoices')
     for (choice in imageChoices){
       if (imageChoices[choice].slug == image) {
-        this.set('model.%%DRIVERNAME%%Config.sshUser', imageChoices[choice].default_username)
+        this.set('config.sshUser', imageChoices[choice].default_username)
         break
       }
     }
 
-    set(this, 'model.%%DRIVERNAME%%Config.instanceType', get(this, 'model.%%DRIVERNAME%%Config.flavor'));
-    console.log(get(this, 'model.%%DRIVERNAME%%Config.serverGroups'));
+    set(this, 'config.instanceType', get(this, 'config.flavor'));
 
     // Set the array of errors for display,
     // and return true if saving should continue.
@@ -136,16 +135,16 @@ export default Ember.Component.extend(NodeDriver, {
     },
     handleServerGroupChange(serverGroup) {
       if (!serverGroup) {
-        set(this, 'model.%%DRIVERNAME%%Config.serverGroups', []);
+        set(this, 'config.serverGroups', []);
         return;
       }
-      set(this, 'model.%%DRIVERNAME%%Config.serverGroups', [serverGroup]);
+      set(this, 'config.serverGroups', [serverGroup]);
     }
   },
   apiRequest(path) {
     return fetch('https://api.cloudscale.ch' + path, {
       headers: {
-        'Authorization': 'Bearer ' + this.get('model.%%DRIVERNAME%%Config.token'),
+        'Authorization': 'Bearer ' + this.get('config.token'),
       },
     }).then(res => res.ok ? res.json() : Promise.reject(res.json()));
   }
