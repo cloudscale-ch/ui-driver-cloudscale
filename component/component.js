@@ -55,11 +55,20 @@ export default Ember.Component.extend(NodeDriver, {
       sshUser: 'root',
       usePrivateNetwork: false,
       useIpv6: false,
-      instanceType: '' // Only used by Rancher UI
+      serverGroups: [],
+
+      instanceType: '', // Only used by Rancher UI
     });
 
     set(this, 'model.%%DRIVERNAME%%Config', config);
   },
+
+  afterInit: function () {
+    const serverGroups = get(this, 'model.%%DRIVERNAME%%Config.serverGroups');
+    if (serverGroups === null) {
+      set(this, 'model.%%DRIVERNAME%%Config.serverGroups', []);
+    }
+  }.on('init'),
 
   // Add custom validation beyond what can be done from the config API schema
   validate() {
@@ -81,7 +90,7 @@ export default Ember.Component.extend(NodeDriver, {
     }
 
     set(this, 'model.%%DRIVERNAME%%Config.instanceType', get(this, 'model.%%DRIVERNAME%%Config.flavor'));
-
+    console.log(get(this, 'model.%%DRIVERNAME%%Config.serverGroups'));
 
     // Set the array of errors for display,
     // and return true if saving should continue.
@@ -93,21 +102,28 @@ export default Ember.Component.extend(NodeDriver, {
       return true;
     }
   },
+  // Any computed properties or custom logic can go here
   actions: {
     getData() {
       this.set('gettingData', true);
       let that = this;
-      Promise.all([this.apiRequest('/v1/images'), this.apiRequest('/v1/flavors')]).then(function (responses) {
+      Promise.all([
+          this.apiRequest('/v1/images'),
+          this.apiRequest('/v1/flavors'),
+          this.apiRequest('/v1/server-groups')
+        ]
+      ).then(function ([imageChoices, flavorChoices, serverGroupsChoices]) {
         that.setProperties({
           errors: [],
           needAPIToken: false,
           gettingData: false,
-          imageChoices: responses[0]
+          imageChoices: imageChoices
             .map(image => ({
               ...image,
               id: image.slug.toString()
             })),
-          flavorChoices: responses[1]
+          flavorChoices: flavorChoices,
+          serverGroupsChoices: serverGroupsChoices
         });
       }).catch(function (err) {
         err.then(function (msg) {
@@ -117,6 +133,13 @@ export default Ember.Component.extend(NodeDriver, {
           })
         })
       })
+    },
+    handleServerGroupChange(serverGroup) {
+      if (!serverGroup) {
+        set(this, 'model.%%DRIVERNAME%%Config.serverGroups', []);
+        return;
+      }
+      set(this, 'model.%%DRIVERNAME%%Config.serverGroups', [serverGroup]);
     }
   },
   apiRequest(path) {
@@ -126,5 +149,4 @@ export default Ember.Component.extend(NodeDriver, {
       },
     }).then(res => res.ok ? res.json() : Promise.reject(res.json()));
   }
-  // Any computed properties or custom logic can go here
 });

@@ -110,6 +110,7 @@
         expand=(action expandFn)
         expandOnInit=false
       }}
+
         <div class="row">
           <div class="col span-6">
             <label class="acc-label">
@@ -137,6 +138,40 @@
             </div>
           </div>
         </div>
+
+        <div class="row">
+          <div class="col span-12">
+            <div class="clearfix">
+              <label class="acc-label">
+                Server Groups
+              </label>
+            </div>
+            {{#if serverGroupsChoices.length}}
+              <select
+                class="form-control"
+                onchange={{action "handleServerGroupChange" value="target.value"}}
+              >
+                <option value selected>
+                  None
+                </option>
+                {{#each serverGroupsChoices as |choice|}}
+                  <option
+                    value={{choice.uuid}}
+                    selected={{eq model.cloudscaleConfig.serverGroups.[0] choice.uuid}}>
+                    {{choice.name}}
+                  </option>
+                {{/each}}
+              </select>
+            {{ else }}
+              You do not have any server groups as of now.
+            {{/if}}
+            <div class="protip pt-10">
+              See <a href="https://www.cloudscale.ch/en/api/v1#server-groups">cloudscale.ch API Documentation</a> for
+              more information.
+            </div>
+          </div>
+        </div>
+
         <div class="row">
           <div class="col span-12">
             <label class="acc-label">
