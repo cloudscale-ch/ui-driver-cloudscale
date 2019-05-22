@@ -54,8 +54,6 @@ export default Ember.Component.extend(NodeDriver, {
       usePrivateNetwork: false,
       useIpv6: false,
       serverGroups: [],
-
-      instanceType: '', // Only used by Rancher UI
     });
 
     set(this, 'model.%%DRIVERNAME%%Config', config);
@@ -76,8 +74,6 @@ export default Ember.Component.extend(NodeDriver, {
     if (!get(this, 'model.name')) {
       errors.push('Name is required');
     }
-
-    set(this, 'config.instanceType', get(this, 'config.flavor'));
 
     // Set the array of errors for display,
     // and return true if saving should continue.
