@@ -22,10 +22,7 @@ The recommended one `https://releases.rancher.com/install-docker/17.03.sh`, seem
 * Wait for the driver to become "Active"
 * Go to Clusters -> Add Cluster, your driver and custom UI should show up.
 
-![Authentication screen](docs/authentication-screen.png)
 ![Configuration screen](docs/configuration-screen.png)
-![Add Cluster screen](docs/add-cluster.png)
-
 
 ## Development
 
