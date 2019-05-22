@@ -49,12 +49,12 @@
             </label>
             <select
               class="form-control"
-              onchange={{action (mut config.image) value="target.value" }}
+              onchange={{action "handleImageChange" value="target.value"}}
             >
               {{#each imageChoices as |choice|}}
                 <option
-                  value={{choice.id}}
-                  selected={{eq config.image choice.id}}>
+                  value={{choice.slug}}
+                  selected={{eq config.image choice.slug}}>
                   {{choice.name}}
                 </option>
               {{/each}}

@@ -17,8 +17,6 @@ const set = Ember.set;
 const alias = Ember.computed.alias;
 const service = Ember.inject.service;
 
-const defaultRadix = 10;
-const defaultBase = 1024;
 /*!!!!!!!!!!!GLOBAL CONST END!!!!!!!!!!!*/
 
 
@@ -79,16 +77,6 @@ export default Ember.Component.extend(NodeDriver, {
       errors.push('Name is required');
     }
 
-    var choice;
-    var image =  get(this, 'config.image')
-    var imageChoices = get(this, 'imageChoices')
-    for (choice in imageChoices){
-      if (imageChoices[choice].slug == image) {
-        this.set('config.sshUser', imageChoices[choice].default_username)
-        break
-      }
-    }
-
     set(this, 'config.instanceType', get(this, 'config.flavor'));
 
     // Set the array of errors for display,
@@ -116,11 +104,7 @@ export default Ember.Component.extend(NodeDriver, {
           errors: [],
           needAPIToken: false,
           gettingData: false,
-          imageChoices: imageChoices
-            .map(image => ({
-              ...image,
-              id: image.slug.toString()
-            })),
+          imageChoices: imageChoices,
           flavorChoices: flavorChoices,
           serverGroupsChoices: serverGroupsChoices
         });
@@ -139,6 +123,14 @@ export default Ember.Component.extend(NodeDriver, {
         return;
       }
       set(this, 'config.serverGroups', [serverGroup]);
+    },
+    handleImageChange(newImageSlug) {
+      // There are some images that do not allow login as root, therefore
+      // we always set the sshUser according to the image default user.
+      const imageChoices = get(this, 'imageChoices');
+      const newImage = imageChoices.find(c => c.slug === newImageSlug);
+      set(this, 'config.image', newImageSlug);
+      set(this, 'config.sshUser', newImage.default_username);
     }
   },
   apiRequest(path) {
