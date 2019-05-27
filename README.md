@@ -1,6 +1,6 @@
 # Rancher 2 cloudscale.ch UI Driver
 
-[![Build Status](https://api.travis-ci.com/splattner/ui-driver-cloudscale.svg?branch=master)](https://travis-ci.com/splattner/ui-driver-cloudscale)
+[![Build Status](https://api.travis-ci.com/cloudscale-ch/ui-driver-cloudscale.svg?branch=master)](https://travis-ci.com/cloudscale-ch/ui-driver-cloudscale)
 
 
 Rancher 2 UI driver for [cloudscale.ch](https://www.cloudscale.ch)
@@ -11,7 +11,7 @@ Rancher 2 UI driver for [cloudscale.ch](https://www.cloudscale.ch)
 
 | Key | Value |
 | --- | ----- |
-| Download URL | `https://github.com/alakae/docker-machine-driver-cloudscale/releases/download/v0.1.1/docker-machine-driver-cloudscale_v0.1.1_linux_amd64.tar.gz` |
+| Download URL | `https://github.com/cloudscale-ch/docker-machine-driver-cloudscale/releases/download/v0.1.1/docker-machine-driver-cloudscale_v0.1.1_linux_amd64.tar.gz` |
 | Custom UI URL | `https://objects.cloudscale.ch/cloudscale-rancher-v2-ui-driver/component.js` |
 | Whitelist Domains |  `objects.cloudscale.ch` |
 | Engine Options -> Docker Install URL | `https://get.docker.com/`|
