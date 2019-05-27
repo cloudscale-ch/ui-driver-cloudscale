@@ -6,10 +6,10 @@ script:
   - yarn build
 deploy:
   provider: s3
-  access_key_id: $AWS_ACCESS_KEY_ID
-  secret_access_key: $AWS_SECRET_ACCESS_KEY
+  endpoint: https://objects.cloudscale.ch
+  access_key_id: $CLOUDSCALE_OBJECTS_ACCESS_KEY
+  secret_access_key: $CLOUDSCALE_OBJECTS_SECRET_KEY
   bucket: "cloudscale-rancher-v2-ui-driver"
-  region: eu-central-1
   acl: public-read
   skip_cleanup: true
   local-dir: dist

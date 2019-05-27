@@ -17,8 +17,6 @@ const set = Ember.set;
 const alias = Ember.computed.alias;
 const service = Ember.inject.service;
 
-const defaultRadix = 10;
-const defaultBase = 1024;
 /*!!!!!!!!!!!GLOBAL CONST END!!!!!!!!!!!*/
 
 
@@ -50,16 +48,23 @@ export default Ember.Component.extend(NodeDriver, {
       type: '%%DRIVERNAME%%Config',
       flavor: 'flex-4', // 4 GB Ram
       image: 'ubuntu-18.04',
-      volumeSizeGb: '20', //GB
+      volumeSizeGb: '50', //GB
       userdata: '',
       sshUser: 'root',
       usePrivateNetwork: false,
       useIpv6: false,
-      instanceType: '' // Only used by Rancher UI
+      serverGroups: [],
     });
 
     set(this, 'model.%%DRIVERNAME%%Config', config);
   },
+
+  afterInit: function () {
+    const serverGroups = get(this, 'config.serverGroups');
+    if (serverGroups === null) {
+      set(this, 'config.serverGroups', []);
+    }
+  }.on('init'),
 
   // Add custom validation beyond what can be done from the config API schema
   validate() {
@@ -69,19 +74,6 @@ export default Ember.Component.extend(NodeDriver, {
     if (!get(this, 'model.name')) {
       errors.push('Name is required');
     }
-
-    var choice;
-    var image =  get(this, 'model.%%DRIVERNAME%%Config.image')
-    var imageChoices = get(this, 'imageChoices')
-    for (choice in imageChoices){
-      if (imageChoices[choice].slug == image) {
-        this.set('model.%%DRIVERNAME%%Config.sshUser', imageChoices[choice].default_username)
-        break
-      }
-    }
-
-    set(this, 'model.%%DRIVERNAME%%Config.instanceType', get(this, 'model.%%DRIVERNAME%%Config.flavor'));
-
 
     // Set the array of errors for display,
     // and return true if saving should continue.
@@ -93,21 +85,24 @@ export default Ember.Component.extend(NodeDriver, {
       return true;
     }
   },
+  // Any computed properties or custom logic can go here
   actions: {
     getData() {
       this.set('gettingData', true);
       let that = this;
-      Promise.all([this.apiRequest('/v1/images'), this.apiRequest('/v1/flavors')]).then(function (responses) {
+      Promise.all([
+          this.apiRequest('/v1/images'),
+          this.apiRequest('/v1/flavors'),
+          this.apiRequest('/v1/server-groups')
+        ]
+      ).then(function ([imageChoices, flavorChoices, serverGroupsChoices]) {
         that.setProperties({
           errors: [],
           needAPIToken: false,
           gettingData: false,
-          imageChoices: responses[0]
-            .map(image => ({
-              ...image,
-              id: image.slug.toString()
-            })),
-          flavorChoices: responses[1]
+          imageChoices: imageChoices,
+          flavorChoices: flavorChoices,
+          serverGroupsChoices: serverGroupsChoices
         });
       }).catch(function (err) {
         err.then(function (msg) {
@@ -117,14 +112,28 @@ export default Ember.Component.extend(NodeDriver, {
           })
         })
       })
+    },
+    handleServerGroupChange(serverGroup) {
+      if (!serverGroup) {
+        set(this, 'config.serverGroups', []);
+        return;
+      }
+      set(this, 'config.serverGroups', [serverGroup]);
+    },
+    handleImageChange(newImageSlug) {
+      // There are some images that do not allow login as root, therefore
+      // we always set the sshUser according to the image default user.
+      const imageChoices = get(this, 'imageChoices');
+      const newImage = imageChoices.find(c => c.slug === newImageSlug);
+      set(this, 'config.image', newImageSlug);
+      set(this, 'config.sshUser', newImage.default_username);
     }
   },
   apiRequest(path) {
     return fetch('https://api.cloudscale.ch' + path, {
       headers: {
-        'Authorization': 'Bearer ' + this.get('model.%%DRIVERNAME%%Config.token'),
+        'Authorization': 'Bearer ' + this.get('config.token'),
       },
     }).then(res => res.ok ? res.json() : Promise.reject(res.json()));
   }
-  // Any computed properties or custom logic can go here
 });
