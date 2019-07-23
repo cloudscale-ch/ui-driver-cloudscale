@@ -107,7 +107,7 @@ export default Ember.Component.extend(NodeDriver, {
       }).catch(function (err) {
         err.then(function (msg) {
           that.setProperties({
-            errors: ['Error received from cloudscale.ch Cloud: ' + msg.error.message],
+            errors: ['Error received from cloudscale.ch API: ' + JSON.stringify(msg)],
             gettingData: false
           })
         })
