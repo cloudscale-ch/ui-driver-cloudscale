@@ -9,7 +9,7 @@ deploy:
   endpoint: https://objects.cloudscale.ch
   access_key_id: $CLOUDSCALE_OBJECTS_ACCESS_KEY
   secret_access_key: $CLOUDSCALE_OBJECTS_SECRET_KEY
-  bucket: "cloudscale-rancher-v2-ui-driver"
+  bucket: $CLOUDSCALE_OBJECTS_BUCKET
   acl: public-read
   skip_cleanup: true
   local-dir: dist
