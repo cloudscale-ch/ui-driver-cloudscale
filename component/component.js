@@ -48,6 +48,7 @@ export default Ember.Component.extend(NodeDriver, {
       type: '%%DRIVERNAME%%Config',
       flavor: 'flex-4', // 4 GB Ram
       image: 'ubuntu-18.04',
+      zone: undefined,
       volumeSizeGb: '50', //GB
       userdata: '',
       sshUser: 'root',
@@ -93,15 +94,19 @@ export default Ember.Component.extend(NodeDriver, {
       Promise.all([
           this.apiRequest('/v1/images'),
           this.apiRequest('/v1/flavors'),
+          this.apiRequest('/v1/regions'),
           this.apiRequest('/v1/server-groups')
         ]
-      ).then(function ([imageChoices, flavorChoices, serverGroupsChoices]) {
+      ).then(([imageChoices, flavorChoices, regions, serverGroupsChoices]) => {
+        const getZonesFromRegions = (regions) => regions.reduce((accu, region) => [...accu, ...region.zones], []);
+        const zoneChoices = getZonesFromRegions(regions);
         that.setProperties({
           errors: [],
           needAPIToken: false,
           gettingData: false,
           imageChoices: imageChoices,
           flavorChoices: flavorChoices,
+          zoneChoices: zoneChoices,
           serverGroupsChoices: serverGroupsChoices
         });
       }).catch(function (err) {
@@ -127,6 +132,9 @@ export default Ember.Component.extend(NodeDriver, {
       const newImage = imageChoices.find(c => c.slug === newImageSlug);
       set(this, 'config.image', newImageSlug);
       set(this, 'config.sshUser', newImage.default_username);
+    },
+    handleZoneChange(zone) {
+      set(this, 'config.zone', zone);
     }
   },
   apiRequest(path) {
@@ -135,5 +143,5 @@ export default Ember.Component.extend(NodeDriver, {
         'Authorization': 'Bearer ' + this.get('config.token'),
       },
     }).then(res => res.ok ? res.json() : Promise.reject(res.json()));
-  }
+  },
 });

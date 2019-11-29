@@ -78,6 +78,30 @@
             </select>
           </div>
         </div>
+        <div class="row">
+          <div class="col span-6">
+            <label class="acc-label">
+              Zone
+            </label>
+            <select
+              class="form-control"
+              onchange={{action "handleZoneChange" value="target.value"}}
+            >
+              <option
+                value={{undefined}}
+                selected={{eq config.zone undefined}}>
+                Project Default
+              </option>
+              {{#each zoneChoices as |choice|}}
+                <option
+                  value={{choice.slug}}
+                  selected={{eq config.zone choice.slug}}>
+                  {{choice.slug}}
+                </option>
+              {{/each}}
+            </select>
+          </div>
+        </div>
       {{/accordion-list-item}}
 
       {{#accordion-list-item
