@@ -62,7 +62,7 @@
           </div>
           <div class="col span-6">
             <label class="acc-label">
-              Image
+              Flavor
             </label>
             <select
               class="form-control"
@@ -73,6 +73,30 @@
                   value={{choice.slug}}
                   selected={{eq config.flavor choice.slug}}>
                   {{choice.name}} - {{choice.memory_gb}}GB Memory - {{choice.vcpu_count}} CPU
+                </option>
+              {{/each}}
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col span-6">
+            <label class="acc-label">
+              Zone
+            </label>
+            <select
+              class="form-control"
+              onchange={{action "handleZoneChange" value="target.value"}}
+            >
+              <option
+                value=""
+                selected={{eq config.zone undefined}}>
+                Project Default
+              </option>
+              {{#each zoneChoices as |choice|}}
+                <option
+                  value={{choice.slug}}
+                  selected={{eq config.zone choice.slug}}>
+                  {{choice.slug}}
                 </option>
               {{/each}}
             </select>
