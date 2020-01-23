@@ -55,6 +55,8 @@ export default Ember.Component.extend(NodeDriver, {
       usePrivateNetwork: false,
       useIpv6: false,
       serverGroups: [],
+      volumeSsd: [],
+      volumeBulk: []
     });
 
     set(this, 'model.%%DRIVERNAME%%Config', config);
@@ -75,6 +77,18 @@ export default Ember.Component.extend(NodeDriver, {
     if (!get(this, 'model.name')) {
       errors.push('Name is required');
     }
+
+    var volumeSsd = get(this, 'config.volumeSsd') || [];
+    set(this, 'config.volumeSsd', volumeSsd);
+
+    var volumeBulk = get(this, 'config.volumeBulk') || [];
+    for (var i = 0; i < volumeBulk.length ; i++ ) {
+      if (volumeBulk[i] % 100 != 0) {
+        errors.push('The size of a bulk volume is not a multiple of 100 GB');
+      }
+    }
+    set(this, 'config.volumeBulk', volumeBulk);
+
 
     // Set the array of errors for display,
     // and return true if saving should continue.
@@ -135,6 +149,21 @@ export default Ember.Component.extend(NodeDriver, {
     },
     handleZoneChange(zone) {
       set(this, 'config.zone', zone);
+    },
+    handleVolumeSSD(volumes) {
+
+      for (var i = 0 ; i < volumes.length ; i++) {
+        volumes[i] = parseInt(volumes[i]);
+      }
+      set(this, 'config.volumeSsd', volumes);
+    }
+    ,
+    handleVolumeBulk(volumes) {
+
+      for (var i = 0 ; i < volumes.length ; i++) {
+        volumes[i] = parseInt(volumes[i]);
+      }
+      set(this, 'config.volumeBulk', volumes);
     }
   },
   apiRequest(path) {
