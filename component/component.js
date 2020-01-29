@@ -150,20 +150,13 @@ export default Ember.Component.extend(NodeDriver, {
     handleZoneChange(zone) {
       set(this, 'config.zone', zone);
     },
-    handleVolumeSSD(volumes) {
-
-      for (var i = 0 ; i < volumes.length ; i++) {
-        volumes[i] = parseInt(volumes[i]);
-      }
-      set(this, 'config.volumeSsd', volumes);
-    }
-    ,
-    handleVolumeBulk(volumes) {
-
-      for (var i = 0 ; i < volumes.length ; i++) {
-        volumes[i] = parseInt(volumes[i]);
-      }
-      set(this, 'config.volumeBulk', volumes);
+    handleVolumeSSDChange(volumes) {
+      const parsed = volumes.map(s => parseInt(s));
+      set(this, 'config.volumeSsd', parsed);
+    },
+    handleVolumeBulkChange(volumes) {
+      const parsed = volumes.map(s => parseInt(s));
+      set(this, 'config.volumeBulk', parsed);
     }
   },
   apiRequest(path) {
