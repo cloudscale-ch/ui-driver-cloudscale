@@ -111,55 +111,52 @@
         expand=(action expandFn)
         expandOnInit=false
       }}
-        <div class="row">
-          <div class="col span-6">
+        <div class="row inline-form">
+          <div class="col span-2 col-inline">
             <label class="acc-label">
               Root Volume (in GB)
             </label>
-            <div>
-              {{input
-                type="text"
-                value=config.volumeSizeGb
-                classNames="form-control"
-              }}
-            </div>
+          </div>
+          <div class="col span-10">
+            {{input
+                    type="text"
+                    value=config.volumeSizeGb
+                    classNames="form-control"
+            }}
           </div>
         </div>
-      {{/accordion-list-item}}
-
-      {{#accordion-list-item
-        title="Additional Storage"
-        detail="Customize the additional storage (SSD or Bulk) of the server that will be created."
-        expandAll=expandAll
-        expand=(action expandFn)
-        expandOnInit=false
-      }}
-        <div class="row">
-          <div class="col span-6">
+        <hr/>
+        <div class="row inline-form">
+          <div class="col span-2 col-inline">
             <label class="acc-label">
               SSD Volumes (in GB)
             </label>
-            {{form-value-array
-              initialValues=config.volumeSsd
-              addActionLabel="generic.add"
-              changed=(action "handleVolumeSSD" )
-              showProTip=false
-
-            }}
           </div>
-          <div class="col span-6">
-            <label class="acc-label">
-              Bulk Volumes (in GB)
-            </label>
+          <div class="col span-10">
             {{form-value-array
-              initialValues=config.volumeBulk
-              addActionLabel="generic.add"
-              changed=(action "handleVolumeBulk" )
-              showProTip=false
+                    initialValues=config.volumeSsd
+                    addActionLabel="generic.add"
+                    changed=(action "handleVolumeSSD" )
+                    showProTip=false
             }}
           </div>
         </div>
-
+        <hr/>
+        <div class="row inline-form">
+          <div class="col span-2 col-inline">
+            <label class="acc-label">
+              Bulk Volumes (in GB)
+            </label>
+          </div>
+          <div class="col span-10">
+            {{form-value-array
+                    initialValues=config.volumeBulk
+                    addActionLabel="generic.add"
+                    changed=(action "handleVolumeBulk" )
+                    showProTip=false
+            }}
+          </div>
+        </div>
       {{/accordion-list-item}}
 
       {{#accordion-list-item
