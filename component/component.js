@@ -55,6 +55,12 @@ export function validateVolume(type, volumes) {
   return [];
 }
 
+function ensureNotNull(key, defaultValue) {
+  const value = get(this, key);
+  if (value === null) {
+    set(this, key, defaultValue);
+  }
+}
 
 /*!!!!!!!!!!!DO NOT CHANGE START!!!!!!!!!!!*/
 export default Ember.Component.extend(NodeDriver, {
@@ -98,10 +104,9 @@ export default Ember.Component.extend(NodeDriver, {
   },
 
   afterInit: function () {
-    const serverGroups = get(this, 'config.serverGroups');
-    if (serverGroups === null) {
-      set(this, 'config.serverGroups', []);
-    }
+    ensureNotNull.call(this, 'config.serverGroups', []);
+    ensureNotNull.call(this, 'config.volumeSsd', []);
+    ensureNotNull.call(this, 'config.volumeBulk', []);
   }.on('init'),
 
   // Add custom validation beyond what can be done from the config API schema
@@ -182,10 +187,10 @@ export default Ember.Component.extend(NodeDriver, {
       set(this, 'config.zone', zone);
     },
     handleVolumeSSDChange(volumes) {
-      set(this, 'config.volumeSsd', volumes);
+      set(this, 'config.volumeSsd', volumes || []);
     },
     handleVolumeBulkChange(volumes) {
-      set(this, 'config.volumeBulk', volumes);
+      set(this, 'config.volumeBulk', volumes || []);
     }
   },
   apiRequest(path) {
