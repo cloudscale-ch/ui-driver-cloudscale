@@ -15,9 +15,11 @@ See the Rancher Documentation on [how to add a node driver](https://rancher.com/
 
     | Key               | Value |
     | ----------------- | ----- |
-    | Download URL      | `https://github.com/cloudscale-ch/docker-machine-driver-cloudscale/releases/download/v1.1.0/docker-machine-driver-cloudscale_v1.1.0_linux_amd64.tar.gz` |
+    | Download URL      | `https://github.com/cloudscale-ch/docker-machine-driver-cloudscale/releases/download/v1.2.0/docker-machine-driver-cloudscale_v1.2.0_linux_amd64.tar.gz` |
     | Custom UI URL     | `https://objects.cloudscale.ch/cloudscale-rancher-v2-ui-driver/component.js` |
     | Whitelist Domains | `objects.cloudscale.ch` |
+    
+    Hint: When updating the driver, you might need to clone your node templates to ensure they use the updated driver version. 
 
 1. Wait for the driver to become "Active"
 1. From the Global view, go to Clusters -> Add Cluster, your driver and custom UI should show up.

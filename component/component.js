@@ -20,6 +20,47 @@ const service = Ember.inject.service;
 /*!!!!!!!!!!!GLOBAL CONST END!!!!!!!!!!!*/
 
 
+const onlyDigit = /^[0-9]+$/;
+
+const RootType = 'root';
+const SSDType = 'ssd';
+const BulkType = 'bulk';
+
+const humanTypes = {
+  'root': 'Root volume size',
+  'ssd': 'SSD volume sizes',
+  'bulk': 'Bulk volume sizes'
+};
+
+export function validateVolume(type, volumes) {
+  const typeHuman = humanTypes[type];
+  console.log(volumes);
+  if (!volumes.every(s => onlyDigit.test(s))) {
+    return [`${typeHuman} may only contain digits.`];
+  }
+
+  const parsed = volumes.map(s => parseInt(s, 10));
+  if (!parsed.every(i => i > 0)) {
+    return [`${typeHuman} may only contain positive numbers.`]
+  }
+
+  if (type === BulkType && !parsed.every(i => i % 100 === 0)) {
+    return [`${typeHuman} must be a multiple of 100 GB in size.`]
+  }
+
+  if (type === RootType && !parsed.every(i => i >= 10)) {
+    return [`${typeHuman} must be at least 10 GB.`]
+  }
+
+  return [];
+}
+
+function ensureNotNull(key, defaultValue) {
+  const value = get(this, key);
+  if (value === null) {
+    set(this, key, defaultValue);
+  }
+}
 
 /*!!!!!!!!!!!DO NOT CHANGE START!!!!!!!!!!!*/
 export default Ember.Component.extend(NodeDriver, {
@@ -55,16 +96,17 @@ export default Ember.Component.extend(NodeDriver, {
       usePrivateNetwork: false,
       useIpv6: false,
       serverGroups: [],
+      volumeSsd: [],
+      volumeBulk: []
     });
 
     set(this, 'model.%%DRIVERNAME%%Config', config);
   },
 
   afterInit: function () {
-    const serverGroups = get(this, 'config.serverGroups');
-    if (serverGroups === null) {
-      set(this, 'config.serverGroups', []);
-    }
+    ensureNotNull.call(this, 'config.serverGroups', []);
+    ensureNotNull.call(this, 'config.volumeSsd', []);
+    ensureNotNull.call(this, 'config.volumeBulk', []);
   }.on('init'),
 
   // Add custom validation beyond what can be done from the config API schema
@@ -75,6 +117,14 @@ export default Ember.Component.extend(NodeDriver, {
     if (!get(this, 'model.name')) {
       errors.push('Name is required');
     }
+
+    var volumeSizeGb = get(this, 'config.volumeSizeGb');
+    var volumeSsd = get(this, 'config.volumeSsd') || [];
+    var volumeBulk = get(this, 'config.volumeBulk') || [];
+    errors.push(...validateVolume(RootType, [volumeSizeGb]));
+    errors.push(...validateVolume(SSDType, volumeSsd));
+    errors.push(...validateVolume(BulkType, volumeBulk));
+
 
     // Set the array of errors for display,
     // and return true if saving should continue.
@@ -135,6 +185,12 @@ export default Ember.Component.extend(NodeDriver, {
     },
     handleZoneChange(zone) {
       set(this, 'config.zone', zone);
+    },
+    handleVolumeSSDChange(volumes) {
+      set(this, 'config.volumeSsd', volumes || []);
+    },
+    handleVolumeBulkChange(volumes) {
+      set(this, 'config.volumeBulk', volumes || []);
     }
   },
   apiRequest(path) {
