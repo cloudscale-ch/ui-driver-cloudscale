@@ -111,19 +111,55 @@
         expand=(action expandFn)
         expandOnInit=false
       }}
-        <div class="row">
-          <div class="col span-6">
+        <div class="row inline-form">
+          <div class="col span-2 col-inline">
             <label class="acc-label">
               Root Volume (in GB)
             </label>
-            <div>
-              {{input
-                type="text"
-                value=config.volumeSizeGb
-                classNames="form-control"
-              }}
-            </div>
           </div>
+          <div class="col span-10">
+            {{input
+                    type="text"
+                    value=config.volumeSizeGb
+                    classNames="form-control"
+            }}
+          </div>
+        </div>
+        <hr/>
+        <div class="row inline-form">
+          <div class="col span-2 col-inline">
+            <label class="acc-label">
+              SSD Volumes (in GB)
+            </label>
+          </div>
+          <div class="col span-10">
+            {{form-value-array
+                    initialValues=config.volumeSsd
+                    addActionLabel="generic.add"
+                    changed=(action "handleVolumeSSDChange" )
+                    showProTip=false
+            }}
+          </div>
+        </div>
+        <hr/>
+        <div class="row inline-form">
+          <div class="col span-2 col-inline">
+            <label class="acc-label">
+              Bulk Volumes (in GB)
+            </label>
+          </div>
+          <div class="col span-10">
+            {{form-value-array
+                    initialValues=config.volumeBulk
+                    addActionLabel="generic.add"
+                    changed=(action "handleVolumeBulkChange" )
+                    showProTip=false
+            }}
+          </div>
+        </div>
+        <div class="protip pt-10">
+          You might want to use <a href="https://github.com/cloudscale-ch/csi-cloudscale">cloudscale.ch CSI Driver</a>
+          for complex setups.
         </div>
       {{/accordion-list-item}}
 
