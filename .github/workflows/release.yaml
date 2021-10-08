@@ -22,6 +22,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.CLOUDSCALE_OBJECTS_SECRET_KEY }}
           BUCKET: ${{ secrets.CLOUDSCALE_OBJECTS_BUCKET }}
           REGION: ${{ secrets.REGION }}
-        run: aws s3 sync ./dist/ s3://${{ env.BUCKET }} --delete --acl public-read --endpoint=https://objects.${{ env.REGION }}.cloudscale.ch
+        run: aws s3 sync ./dist/ s3://${{ env.BUCKET }} --delete --acl public-read --endpoint=https://objects.${{ env.REGION }}.cloudscale.ch --region ${{ env.REGION }}
 
 
