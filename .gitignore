@@ -21,3 +21,6 @@ testem.log
 # IntelliJ
 .idea
 ui-driver-cloudscale.iml
+
+# nektos/act secrets for local testing
+.secrets
