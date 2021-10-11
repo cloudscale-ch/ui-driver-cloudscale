@@ -1,7 +1,7 @@
 # Rancher 2 cloudscale.ch UI Driver
 
-[![Build Status](https://travis-ci.org/cloudscale-ch/ui-driver-cloudscale.svg?branch=master)](https://travis-ci.org/cloudscale-ch/ui-driver-cloudscale)
-
+[![.github/workflows/build.yaml](https://github.com/cloudscale-ch/ui-driver-cloudscale/actions/workflows/build.yaml/badge.svg)](https://github.com/cloudscale-ch/ui-driver-cloudscale/actions/workflows/build.yaml)
+[![.github/workflows/release.yaml](https://github.com/cloudscale-ch/ui-driver-cloudscale/actions/workflows/release.yaml/badge.svg)](https://github.com/cloudscale-ch/ui-driver-cloudscale/actions/workflows/release.yaml)
 
 Rancher 2 UI driver for the [cloudscale.ch](https://www.cloudscale.ch) IaaS platform.
 
