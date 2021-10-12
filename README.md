@@ -7,10 +7,10 @@ Rancher 2 UI driver for the [cloudscale.ch](https://www.cloudscale.ch) IaaS plat
 
 ## Using the cloudscale.ch UI Driver
 
-See the Rancher Documentation on [how to add a node driver](https://rancher.com/docs/rancher/v2.x/en/admin-settings/drivers/node-drivers/) to your installation. The relevant part is in 'Adding Custom Node Drivers':
+See the Rancher Documentation on [how to add a node driver](https://rancher.com/docs/rancher/v2.6/en/admin-settings/drivers/node-drivers/) to your installation. The relevant part is in 'Adding Custom Node Drivers':
 
 1. From the navigation expandable from the top left, choose Global Apps > Cluster Management. Then navigate to Clusters > Drivers. From the Drivers page, select the Node Drivers tab.
-1. Click Add Node Driver or just active the driver if the "Cloudscale" driver is already present.
+1. Click Add Node Driver or just activate the driver if the "Cloudscale" driver is already present.
 1. Complete the Add Node Driver form. Then click Create:
 
     | Key               | Value |
