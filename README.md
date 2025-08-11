@@ -1,3 +1,15 @@
+### ⚠️ Repository Archived
+
+**Notice:** This repository has been archived and is now read-only.
+No further updates, bug fixes, or feature additions will be made. You can continue to use the published versions.
+
+Please contact [support@cloudscale.ch](mailto:support@cloudscale.ch) if you have any questions.
+
+Why was this repository archived, and what alternatives are offered?
+
+- The [docker/machine](https://github.com/docker/machine) project was archived in September 2021.
+- [RKEv1](https://www.suse.com/c/rke-end-of-life-by-july-2025-replatform-to-rke2-or-k3s/) has reached EOL in July 2025.
+
 # Rancher 2 cloudscale.ch UI Driver
 
 [![.github/workflows/build.yaml](https://github.com/cloudscale-ch/ui-driver-cloudscale/actions/workflows/build.yaml/badge.svg)](https://github.com/cloudscale-ch/ui-driver-cloudscale/actions/workflows/build.yaml)
